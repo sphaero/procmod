@@ -1051,8 +1051,6 @@ public abstract class BasicModMixer
 			
 			processEffekts(false, aktMemo);
 		}
-		//System.out.print(currentPatternIndex + ":");
-		System.out.print(patternRow.toString() + "\n");
 	}
 	/**
 	 * Do the events during a Tick.
