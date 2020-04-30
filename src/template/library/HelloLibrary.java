@@ -92,7 +92,7 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 		props.setProperty(ModContainer.PROPERTY_PLAYER_MSBUFFERSIZE, "30");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_BITSPERSAMPLE, "16");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_FREQUENCY, "44100");
-		String fileName = "/home/arnaud/81030-psychotech.mod";
+		String fileName = "/home/arnaud/src/procmod/data/test.mod";
 		try
 		{
 			modFileName = new URL(fileName);
@@ -114,7 +114,7 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 
 		try 
 		{
-			MultimediaContainer newContainer = MultimediaContainerManager.getMultimediaContainer("/home/arnaud/81030-psychotech.mod");
+			MultimediaContainer newContainer = MultimediaContainerManager.getMultimediaContainer(modFileName);
 			if (newContainer!=null) currentContainer = newContainer;
 		}
 		catch (Throwable ex)
