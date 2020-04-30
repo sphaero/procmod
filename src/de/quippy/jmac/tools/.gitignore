@@ -1,0 +1,15 @@
+/ByteArrayReader.class
+/ByteArrayWriter.class
+/ByteBuffer.class
+/CircleBuffer.class
+/Crc32.class
+/File.class
+/InputStreamFile.class
+/IntegerPointer.class
+/JMACException.class
+/JMACSkippedException.class
+/JMACStoppedByUserException.class
+/Prepare.class
+/RandomAccessFile.class
+/RollBufferFastInt.class
+/RollBufferShort.class
