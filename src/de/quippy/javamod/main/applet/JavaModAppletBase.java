@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import de.quippy.javamod.main.gui.PatternRow;
+import de.quippy.javamod.multimedia.mod.loader.pattern.*;
 import de.quippy.javamod.main.gui.PlayThread;
 import de.quippy.javamod.main.gui.PlayThreadEventListener;
 import de.quippy.javamod.main.playlist.PlayList;
@@ -41,7 +41,6 @@ import de.quippy.javamod.multimedia.mod.ModMixer;
 import de.quippy.javamod.multimedia.mod.mixer.BasicModMixer;
 import de.quippy.javamod.system.Helpers;
 import de.quippy.javamod.system.Log;
-import de.quippy.javamod.multimedia.mod.loader.pattern.*;
 /**
  * @author Daniel Becker
  * @since 12.07.2009
