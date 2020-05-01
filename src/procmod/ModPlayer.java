@@ -27,6 +27,8 @@ import de.quippy.javamod.system.Log;
  * For example:
  * just add void modRowEvent( int channel, int instrument, int note ) to a sketch which will be 
  * called with the current channel, instrument and note being played. Zeroes (0) are received when nothing is played!
+ * 
+ * This library just implements a slightly modified JavaMod by Daniel Becker so all respect goes to him!
  *
  * @example Hello 
  */
@@ -56,9 +58,27 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	 * @example Hello
 	 * @param theParent the parent PApplet
 	 */
-	public ModPlayer(PApplet theParent) {
+	public ModPlayer(PApplet theParent, String modFile) {
 		super(false);
 		myParent = theParent;
+		
+		try
+		{
+			modFileName = new URL(modFile);
+		}
+		catch (MalformedURLException ex) // This is evil, but I dont want to test on local files myself...
+		{
+			try
+			{
+				modFileName = (new File(modFile)).toURI().toURL();
+			}
+			catch (MalformedURLException exe) // This is even more evil...
+			{
+				Log.error("This is not parsable: " + modFile, ex);
+				System.exit(-1);
+			}
+		}
+		
 		initJavaMod();
 		
 		// check to see if the host applet implements
@@ -93,23 +113,6 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		props.setProperty(ModContainer.PROPERTY_PLAYER_MSBUFFERSIZE, "30");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_BITSPERSAMPLE, "16");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_FREQUENCY, "44100");
-		String fileName = "/home/arnaud/src/procmod/data/test.mod";
-		try
-		{
-			modFileName = new URL(fileName);
-		}
-		catch (MalformedURLException ex) // This is evil, but I dont want to test on local files myself...
-		{
-			try
-			{
-				modFileName = (new File(fileName)).toURI().toURL();
-			}
-			catch (MalformedURLException exe) // This is even more evil...
-			{
-				Log.error("This is not parsable: " + fileName, ex);
-				System.exit(-1);
-			}
-		}
 		
 		MultimediaContainerManager.configureContainer(props);
 
@@ -125,15 +128,34 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
     	}
     	finally
     	{
-    		Mixer mixer = createNewMixer();
-    		mixer.setExportFile(wavFileName);
-    		playerThread = new PlayThread(mixer, this);
-    		mixer.setListener(this, playerThread);
-    		playerThread.start();
+    		
     	}
 	}
 	
+	public void play() 
+	{
+		Mixer mixer = createNewMixer();
+		mixer.setExportFile(wavFileName);
+		playerThread = new PlayThread(mixer, this);
+		mixer.setListener(this, playerThread);
+		playerThread.start();
+	}
 	
+	/**
+	 * Pause playing
+	 */
+	public void pause()
+	{
+		if (playerThread.isRunning())
+			playerThread.pausePlay();
+	}
+	
+	public void stop()
+	{
+		if (playerThread.isRunning())
+			playerThread.stopMod();
+	}
+
 	public String sayHello() {
 		return "hello library.";
 	}
