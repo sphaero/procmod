@@ -7,6 +7,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
+import java.lang.reflect.*;
 
 //import de.quippy.*;
 import de.quippy.javamod.main.JavaModMainBase;
@@ -19,7 +20,6 @@ import de.quippy.javamod.multimedia.MultimediaContainerManager;
 import de.quippy.javamod.multimedia.mod.ModContainer;
 import de.quippy.javamod.multimedia.mod.loader.pattern.*;
 import de.quippy.javamod.system.Log;
-import java.lang.reflect.*;
 
 /*
  * This is a template class and can be used to start a new processing Library.
@@ -41,6 +41,7 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	Method modRowEvent;
 	Method modPatternEvent;
 	
+	public boolean verbose = false;
 	private int myVariable = 0;
 	private URL modFileName;
 	public final static String VERSION = "##library.prettyVersion##";
@@ -65,8 +66,9 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	    // public void fancyEvent(FancyLibrary f)
 	    try {
 	      modRowEvent = myParent.getClass().getMethod("modRowEvent",
-	                                    new Class[] { HelloLibrary.class });
+	                                    new Class[] { int.class, int.class, int.class });
 	    } catch (Exception e) {
+	    	System.out.println("No modRowEvent found in the sketch!");
 	      // no such method, or an error.. which is fine, just ignore
 	    }
 	    try {
@@ -179,8 +181,23 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	
 	public void mixerEventOccured(int rowIndex, PatternRow row) 
 	{
-		System.out.println(rowIndex + ":" 
-				+ row.toString());
+		if (verbose) 
+			System.out.println(rowIndex + ":" + row.toString());
+
+		if (modRowEvent != null) {
+		    try {
+		    	PatternElement[] els = row.getPatternElement();
+		    	for (int i=0;i<els.length;i++)
+		    	{
+		    		modRowEvent.invoke(myParent, els[i].getChannel(), els[i].getInstrument(), els[i].getNoteIndex() );
+		    	}
+	    		//modRowEvent.invoke(parent, new Object[] { this });
+		    } catch (Exception e) {
+				System.err.println("Disabling modRowEvent() because of an error.");
+				e.printStackTrace();
+				modRowEvent = null;
+		    }
+		  }
 	};
 }
 
