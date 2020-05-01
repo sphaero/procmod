@@ -1,4 +1,4 @@
-package template.library;
+package procmod;
 
 
 import processing.core.*;
@@ -22,21 +22,21 @@ import de.quippy.javamod.multimedia.mod.loader.pattern.*;
 import de.quippy.javamod.system.Log;
 
 /*
- * This is a template class and can be used to start a new processing Library.
- * Make sure you rename this class as well as the name of the example package 'template' 
- * to your own Library naming convention.
- * 
- * (the tag example followed by the name of an example included in folder 'examples' will
- * automatically include the example in the javadoc.)
+ * This class provides the methods for loading and playing Mod files in Processing.
+ * The class also provides events to the parent sketch to receive mod events
+ * For example:
+ * just add void modRowEvent( int channel, int instrument, int note ) to a sketch which will be 
+ * called with the current channel, instrument and note being played. Zeroes (0) are received when nothing is played!
  *
  * @example Hello 
  */
 
-public class HelloLibrary extends JavaModMainBase implements PlayThreadEventListener
+public class ModPlayer extends JavaModMainBase implements PlayThreadEventListener
 {
 	
 	// myParent is a reference to the parent sketch
 	PApplet myParent;
+	public final static String VERSION = "##library.prettyVersion##";
 	
 	Method modRowEvent;
 	Method modPatternEvent;
@@ -44,7 +44,6 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	public boolean verbose = false;
 	private int myVariable = 0;
 	private URL modFileName;
-	public final static String VERSION = "##library.prettyVersion##";
 	public MultimediaContainer currentContainer;
 	private File wavFileName;
 	private PlayThread playerThread = null;
@@ -57,13 +56,13 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	 * @example Hello
 	 * @param theParent the parent PApplet
 	 */
-	public HelloLibrary(PApplet theParent) {
+	public ModPlayer(PApplet theParent) {
 		super(false);
 		myParent = theParent;
 		initJavaMod();
 		
 		// check to see if the host applet implements
-	    // public void fancyEvent(FancyLibrary f)
+	    // public void modRowEvent ...
 	    try {
 	      modRowEvent = myParent.getClass().getMethod("modRowEvent",
 	                                    new Class[] { int.class, int.class, int.class });
@@ -73,7 +72,7 @@ public class HelloLibrary extends JavaModMainBase implements PlayThreadEventList
 	    }
 	    try {
 	      modPatternEvent = myParent.getClass().getMethod("modRowEvent",
-	                                    new Class[] { HelloLibrary.class });
+	                                    new Class[] { ModPlayer.class });
 	    } catch (Exception e) {
 	      // no such method, or an error.. which is fine, just ignore
 	    }
