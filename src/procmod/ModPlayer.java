@@ -64,7 +64,7 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		
 		try
 		{
-			modFileName = new URL(modFile);
+			modFileName = new URL( myParent.dataPath(modFile) );
 		}
 		catch (MalformedURLException ex) // This is evil, but I dont want to test on local files myself...
 		{
