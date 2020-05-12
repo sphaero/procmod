@@ -165,9 +165,6 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 			playerThread.stopMod();
 	}
 
-	public String sayHello() {
-		return "hello library.";
-	}
 	/**
 	 * return the version of the Library.
 	 * 
