@@ -98,10 +98,28 @@ ${line}
 		<echo message="init library ..." />	
 	</target>
 	
+
+    <condition property="javamod.exists">
+        <available file="lib/javamod.jar" />
+    </condition>
+
 	
+	<target name="generate.javamod" unless="javamod.exists" >
+	    <echo message="building javamod dependency" />
+	    <mkdir dir="./ext/.tmp"/>
+	    <javac srcdir="./ext/javamod" destdir="./ext/.tmp/" source="${java.target.version}" target="${java.target.version}" includeantruntime="false">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+            <compilerarg value="-Xlint"/>
+        </javac>
+		<jar jarfile="${project.lib}/javamod.jar" basedir="./ext/.tmp/"/>
+		<delete dir="./ext/.tmp/" />
+	</target>
 	
 	<target name="library.run" depends="library.init"> 
 		<echo message="building library ..." />
+		<antcall target="generate.javamod" />
 		<antcall target="generate.structure"><param name="folder" value="library"/></antcall>
 		<antcall target="generate.source" />
 		<antcall target="compile" />
@@ -206,8 +224,7 @@ ${line}
 		<move file="${project.tmp}/${project.name}" toDir="${project.dist.version}" />
 	</target>
 	
-	
-	
+
 	<target name="generate.javadoc" if="is.normal">
 	  	<!-- create the java reference of the Library -->
 		<javadoc bottom="Processing Library ${project.name} by ${author.name}. ${library.copyright}" 
