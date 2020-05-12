@@ -1,19 +1,26 @@
-import template.library.*;
+import procmod.*;
 
-HelloLibrary hello;
+ModPlayer hello;
+int bgcolor = 0;
 
 void setup() {
-  size(400,400);
-  smooth();
+  background(bgcolor);
   
-  hello = new HelloLibrary(this);
-  
-  PFont font = createFont("",40);
-  textFont(font);
+  hello = new ModPlayer(this, dataPath("test.mod"));
+  hello.play();
 }
 
 void draw() {
-  background(0);
+  background(bgcolor);
   fill(255);
-  text(hello.sayHello(), 40, 200);
+  text("Helloow", 40, 200);
+}
+
+void modRowEvent( int channel, int instrument, int note )
+{
+  if (channel == 0)
+  {
+    println(channel +":"+ instrument +":"+ note);
+    bgcolor = note * 3;
+  }
 }
