@@ -78,9 +78,15 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 				System.exit(-1);
 			}
 		}
-		
-		initJavaMod();
-		
+		// just a lame test to see if the file is there before we init.
+		if ( new File(modFileName.getPath() ).isFile() )
+		{
+			initJavaMod();
+		}
+		else
+		{
+			Log.error("Cannot find " + modFileName.getPath());
+		}
 		// check to see if the host applet implements
 	    // public void modRowEvent ...
 	    try {
@@ -110,7 +116,7 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		props.setProperty(ModContainer.PROPERTY_PLAYER_NOISEREDUCTION, "FALSE");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_MEGABASS, "FALSE");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_NOLOOPS, "0"); //set infinit loop handling: 0:original; 1:fade out; 2:ignore"
-		props.setProperty(ModContainer.PROPERTY_PLAYER_MSBUFFERSIZE, "30");
+		props.setProperty(ModContainer.PROPERTY_PLAYER_MSBUFFERSIZE, "20");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_BITSPERSAMPLE, "16");
 		props.setProperty(ModContainer.PROPERTY_PLAYER_FREQUENCY, "44100");
 		
@@ -134,11 +140,14 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	
 	public void play() 
 	{
-		Mixer mixer = createNewMixer();
-		mixer.setExportFile(wavFileName);
-		playerThread = new PlayThread(mixer, this);
-		mixer.setListener(this, playerThread);
-		playerThread.start();
+		if (currentContainer != null )
+		{
+			Mixer mixer = createNewMixer();
+			mixer.setExportFile(wavFileName);
+			playerThread = new PlayThread(mixer, this);
+			mixer.setListener(this, playerThread);
+			playerThread.start();
+		}
 	}
 	
 	/**
