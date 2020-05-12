@@ -92,7 +92,7 @@ public class SoundOutputStreamImpl implements SoundOutputStream
 					sourceLineInfo.getFormats();
 					sourceLine = (SourceDataLine) AudioSystem.getLine(sourceLineInfo);
 					sourceLine.getFormat();
-					sourceLine.open(sourceLine.getFormat(), 4096);
+					sourceLine.open(sourceLine.getFormat(), 3072);
 					sourceLine.start();
 					setVolume(currentVolume);
 					setBalance(currentBalance);
