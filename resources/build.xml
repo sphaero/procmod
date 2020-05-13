@@ -107,19 +107,26 @@ ${line}
 	<target name="generate.javamod" unless="javamod.exists" >
 	    <echo message="building javamod dependency" />
 	    <mkdir dir="./ext/.tmp"/>
-	    <javac srcdir="./ext/javamod" destdir="./ext/.tmp/" source="${java.target.version}" target="${java.target.version}" includeantruntime="false">
+	    <javac srcdir="./ext/javamod" source="${java.target.version}" target="${java.target.version}" includeantruntime="false" debug="true">
             <classpath>
                 <path refid="classpath"/>
             </classpath>
             <compilerarg value="-Xlint"/>
         </javac>
-		<jar jarfile="${project.lib}/javamod.jar" basedir="./ext/.tmp/"/>
+		<jar destfile="${project.lib}/javamod.jar" basedir="./ext/javamod" excludes="**/*.java" />
 		<delete dir="./ext/.tmp/" />
 	</target>
+
+    <target name="clean.javamod">
+        <delete>
+            <fileset dir="ext/javamod/" includes="**/*.class"/>
+        </delete>
+        <delete file="lib/javamod.jar"/>
+    </target>
 	
 	<target name="library.run" depends="library.init"> 
 		<echo message="building library ..." />
-		<!--<antcall target="generate.javamod" />-->
+		<antcall target="generate.javamod" />
 		<antcall target="generate.structure"><param name="folder" value="library"/></antcall>
 		<antcall target="generate.source" />
 		<antcall target="compile" />
