@@ -119,7 +119,7 @@ ${line}
 	
 	<target name="library.run" depends="library.init"> 
 		<echo message="building library ..." />
-		<antcall target="generate.javamod" />
+		<!--<antcall target="generate.javamod" />-->
 		<antcall target="generate.structure"><param name="folder" value="library"/></antcall>
 		<antcall target="generate.source" />
 		<antcall target="compile" />
@@ -156,7 +156,7 @@ ${line}
 	
 	
 	<target name="compile">
-		<javac srcdir="${project.tmp}/${project.name}/src" destdir="${project.bin}" source="${java.target.version}" target="${java.target.version}" includeantruntime="false">
+		<javac srcdir="${project.tmp}/${project.name}/src" destdir="${project.bin}" source="${java.target.version}" target="${java.target.version}" includeantruntime="false" debug="true">
 			<classpath>
 				<path refid="classpath"/>
 			</classpath>
