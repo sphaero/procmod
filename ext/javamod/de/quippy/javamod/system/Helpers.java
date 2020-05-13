@@ -97,36 +97,36 @@ public class Helpers
 	 */
 	public static String HOMEDIR;
     public static Font TEXTAREA_FONT = new Font("Monospaced", Font.PLAIN, 10);
-	static
-	{
-		try
-		{
-			HOMEDIR = System.getProperty("user.home");
-		}
-		catch (Throwable ex1)
-		{
-			try
-			{
-				HOMEDIR = System.getProperty("java.io.tmpdir");
-			}
-			catch (Throwable ex2)
-			{
-				Log.error("Could not set home dir", ex2);
-				HOMEDIR = "";
-			}
-		}
-		try
-		{
-			InputStream is = Helpers.class.getResourceAsStream(Helpers.DEFAULTFONTPATH);
-			Font font = Font.createFont(Font.TRUETYPE_FONT, is);
-			TEXTAREA_FONT = font.deriveFont(10.0f);
-		}
-		catch (Exception ex)
-		{
-			Log.error("Could not load font!", ex);
-			TEXTAREA_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 10);
-		}
-	}
+//	static
+//	{
+//		try
+//		{
+//			HOMEDIR = System.getProperty("user.home");
+//		}
+//		catch (Throwable ex1)
+//		{
+//			try
+//			{
+//				HOMEDIR = System.getProperty("java.io.tmpdir");
+//			}
+//			catch (Throwable ex2)
+//			{
+//				Log.error("Could not set home dir", ex2);
+//				HOMEDIR = "";
+//			}
+//		}
+//		try
+//		{
+//			InputStream is = Helpers.class.getResourceAsStream(Helpers.DEFAULTFONTPATH);
+//			Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+//			TEXTAREA_FONT = font.deriveFont(10.0f);
+//		}
+//		catch (Exception ex)
+//		{
+//			Log.error("Could not load font!", ex);
+//			TEXTAREA_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 10);
+//		}
+//	}
 	
 	/**
 	 * It's ridiculous, but with the GUI we need cp850 but with
