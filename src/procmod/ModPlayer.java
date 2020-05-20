@@ -30,7 +30,7 @@ import de.quippy.javamod.system.Log;
  * 
  * This library just implements a slightly modified JavaMod by Daniel Becker so all respect goes to him!
  *
- * @example Hello 
+ * @example ModPlayer 
  */
 
 public class ModPlayer extends JavaModMainBase implements PlayThreadEventListener
@@ -44,7 +44,6 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	Method modPatternEvent;
 	
 	public boolean verbose = false;
-	private int myVariable = 0;
 	private URL modFileName;
 	public MultimediaContainer currentContainer;
 	private File wavFileName;
@@ -55,8 +54,9 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	 * a Constructor, usually called in the setup() method in your sketch to
 	 * initialize and start the Library.
 	 * 
-	 * @example Hello
+	 * @example ModPlayer
 	 * @param theParent the parent PApplet
+	 * @param modFile path to a mod file
 	 */
 	public ModPlayer(PApplet theParent, String modFile) {
 		super(false);
@@ -138,6 +138,9 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
     	}
 	}
 	
+	/**
+	 * start playing of the mod file.
+	 */
 	public void play() 
 	{
 		if (currentContainer != null )
@@ -158,7 +161,11 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		if (playerThread.isRunning())
 			playerThread.pausePlay();
 	}
-	
+
+    /**
+     * Stop playing
+     */
+
 	public void stop()
 	{
 		if (playerThread.isRunning())
@@ -174,23 +181,6 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		return VERSION;
 	}
 
-	/**
-	 * 
-	 * @param theA the width of test
-	 * @param theB the height of test
-	 */
-	public void setVariable(int theA, int theB) {
-		myVariable = theA + theB;
-	}
-
-	/**
-	 * 
-	 * @return int
-	 */
-	public int getVariable() {
-		return myVariable;
-	}
-	
 	private Mixer createNewMixer()
 	{
 		Mixer mixer = currentContainer.createNewMixer();
@@ -203,7 +193,7 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	
 	public void playThreadEventOccured(PlayThread thread)
 	{
-		System.out.println("Blaaaa");
+		System.out.println("playThreadEvent occured");
 	}
 	
 	public void mixerEventOccured(int rowIndex, PatternRow row) 
@@ -211,15 +201,18 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		if (verbose) 
 			System.out.println(rowIndex + ":" + row.toString());
 
-		if (modRowEvent != null) {
-		    try {
+		if (modRowEvent != null) 
+		{
+		    try 
+		    {
 		    	PatternElement[] els = row.getPatternElement();
 		    	for (int i=0;i<els.length;i++)
 		    	{
 		    		modRowEvent.invoke(myParent, els[i].getChannel(), els[i].getInstrument(), els[i].getNoteIndex() );
 		    	}
-	    		//modRowEvent.invoke(parent, new Object[] { this });
-		    } catch (Exception e) {
+		    }
+		    catch (Exception e) 
+		    {
 				System.err.println("Disabling modRowEvent() because of an error.");
 				e.printStackTrace();
 				modRowEvent = null;

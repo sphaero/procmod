@@ -1,13 +1,13 @@
 import procmod.*;
 
-ModPlayer hello;
+ModPlayer mplayer;
 int bgcolor = 0;
 
 void setup() {
   background(bgcolor);
   
-  hello = new ModPlayer(this, dataPath("test.mod"));
-  hello.play();
+  mplayer = new ModPlayer(this, dataPath("test.mod"));
+  mplayer.play();
 }
 
 void draw() {
