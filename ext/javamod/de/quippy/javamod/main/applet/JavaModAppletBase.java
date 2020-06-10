@@ -99,6 +99,7 @@ public abstract class JavaModAppletBase extends Applet implements PlayThreadEven
 	
 	public abstract void playThreadEventOccured(PlayThread thread);
 	public void mixerEventOccured(int rowIndex, PatternRow row) {};
+	public void patternEventOccured(int pattern, int position) {};
 	protected abstract void setPlayListIcons();
 	protected abstract void setNewSongName(String newSongName);
 	protected abstract void initGui();

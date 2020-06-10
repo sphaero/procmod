@@ -97,9 +97,10 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 	      // no such method, or an error.. which is fine, just ignore
 	    }
 	    try {
-	      modPatternEvent = myParent.getClass().getMethod("modRowEvent",
-	                                    new Class[] { ModPlayer.class });
+	      modPatternEvent = myParent.getClass().getMethod("modPatternEvent",
+	                                    new Class[] { int.class, int.class });
 	    } catch (Exception e) {
+	    	System.out.println("No modPatternEvent found in the sketch!");
 	      // no such method, or an error.. which is fine, just ignore
 	    }
 	}
@@ -218,6 +219,26 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 				modRowEvent = null;
 		    }
 		  }
+	};
+	
+	public void patternEventOccured(int pattern, int position) 
+	{
+		if (verbose) 
+			System.out.println("PatternEvent: " + pattern + ":" + position);
+	
+		if (modPatternEvent != null) 
+		{
+		    try 
+		    {
+	    		modPatternEvent.invoke(myParent, pattern, position );
+		    }
+		    catch (Exception e) 
+		    {
+				System.err.println("Disabling modPatternEvent() because of an error.");
+				e.printStackTrace();
+				modPatternEvent = null;
+		    }
+		}
 	};
 }
 

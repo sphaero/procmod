@@ -191,7 +191,7 @@ public class CommandLine extends JavaModMainBase implements PlayThreadEventListe
 	}
 	
 	public void mixerEventOccured(int rowIndex, PatternRow row) {};
-	
+	public void patternEventOccured(int pattern, int position) {};
 	/**
 	 * Plays the modfile with the current
 	 * parameters set

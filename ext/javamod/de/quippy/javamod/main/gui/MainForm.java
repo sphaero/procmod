@@ -2575,4 +2575,6 @@ public class MainForm extends javax.swing.JFrame implements DspProcessorCallBack
 //		ex.printStackTrace(System.err);
 //	}
 	public void mixerEventOccured(int rowIndex, PatternRow row) {};
+	public void patternEventOccured(int pattern, int position) {};
+
 }

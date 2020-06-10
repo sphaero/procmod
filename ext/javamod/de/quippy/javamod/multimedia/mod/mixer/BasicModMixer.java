@@ -1100,6 +1100,7 @@ public abstract class BasicModMixer
 				{
 					// Do the row events
 					doRowEvent();
+					
 					// and step to the next row... Even if there are no more -  we will find out later!
 					currentRow++;
 					if (currentRow>=currentPattern.getRowCount() || patternBreakRowIndex!=-1 || patternPosJumpPatternIndex!=-1)
@@ -1148,6 +1149,7 @@ public abstract class BasicModMixer
 							currentPatternIndex = -1;
 							currentPattern = null;
 						}
+						informListenerPatternChange();
 					}
 				}
 			}
@@ -1382,6 +1384,14 @@ public abstract class BasicModMixer
 				int note = el[i].getNoteIndex();
 				int vol = el[i].getVolumeEffekt();
 			}*/			
+		}
+	}
+	
+	protected void informListenerPatternChange()
+	{
+		if (listener != null )
+		{
+			this.listener.patternEventOccured(currentPatternIndex, currentArrangement);
 		}
 	}
 }

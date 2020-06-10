@@ -32,4 +32,5 @@ public interface PlayThreadEventListener extends EventListener
 {
 	public void playThreadEventOccured(PlayThread thread);
 	public void mixerEventOccured(int rowIndex, PatternRow row);
+	public void patternEventOccured(int currentPatternIndex, int currentPosition);
 }
