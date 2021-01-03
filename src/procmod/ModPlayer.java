@@ -62,31 +62,19 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		super(false);
 		myParent = theParent;
 		
+		File dir = new File( myParent.sketchPath(), "data" );
+		
 		try
 		{
-			modFileName = new URL( myParent.dataPath(modFile) );
+			modFileName = (new File(dir, modFile)).toURI().toURL();
 		}
-		catch (MalformedURLException ex) // This is evil, but I dont want to test on local files myself...
+		catch (MalformedURLException ex)
 		{
-			try
-			{
-				modFileName = (new File(modFile)).toURI().toURL();
-			}
-			catch (MalformedURLException exe) // This is even more evil...
-			{
-				Log.error("This is not parsable: " + modFile, ex);
-				System.exit(-1);
-			}
+			Log.error("Cannot find: " + modFile, ex);
+			System.exit(-1);
 		}
-		// just a lame test to see if the file is there before we init.
-		if ( new File(modFileName.getPath() ).isFile() )
-		{
-			initJavaMod();
-		}
-		else
-		{
-			Log.error("Cannot find " + modFileName.getPath());
-		}
+		initJavaMod();
+		
 		// check to see if the host applet implements
 	    // public void modRowEvent ...
 	    try {
