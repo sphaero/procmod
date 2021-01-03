@@ -62,17 +62,32 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		super(false);
 		myParent = theParent;
 		
-		File dir = new File( myParent.sketchPath(), "data" );
+		// first try to handle old examples using dataPath
+		File f = new File(modFile);
+		if(f.exists() && !f.isDirectory()) { 
+		    // do something
+			try {
+				modFileName = f.toURI().toURL();
+			}
+			catch (MalformedURLException ex)
+			{
+				Log.error("Cannot find file in path: " + modFile, ex);
+			}
+		}
+		else
+		{
+			File dir = new File( myParent.sketchPath(), "data" );			
+			try
+			{
+				modFileName = (new File(dir, modFile)).toURI().toURL();
+			}
+			catch (MalformedURLException ex)
+			{
+				Log.error("Cannot find: " + modFile, ex);
+				System.exit(-1);
+			}
+		}
 		
-		try
-		{
-			modFileName = (new File(dir, modFile)).toURI().toURL();
-		}
-		catch (MalformedURLException ex)
-		{
-			Log.error("Cannot find: " + modFile, ex);
-			System.exit(-1);
-		}
 		initJavaMod();
 		
 		// check to see if the host applet implements

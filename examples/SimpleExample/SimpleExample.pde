@@ -9,7 +9,7 @@ void setup() {
   size(200,200);
   background(bgcolor);
   //  Load the supplied test.mod file
-  mplayer = new ModPlayer(this, dataPath("test.mod"));
+  mplayer = new ModPlayer(this, "test.mod");
   //  play it rightaway
   mplayer.play();
 }
