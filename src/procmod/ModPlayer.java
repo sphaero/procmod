@@ -65,7 +65,6 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		// first try to handle old examples using dataPath
 		File f = new File(modFile);
 		if(f.exists() && !f.isDirectory()) { 
-		    // do something
 			try {
 				modFileName = f.toURI().toURL();
 			}
@@ -77,6 +76,12 @@ public class ModPlayer extends JavaModMainBase implements PlayThreadEventListene
 		else
 		{
 			File dir = new File( myParent.sketchPath(), "data" );			
+			f = new File(dir, modFile);
+			if( !(f.exists() && !f.isDirectory()) )
+			{
+				Log.error("File doesn't exist or is a directory: " + modFile);
+				System.exit(-1);
+			}
 			try
 			{
 				modFileName = (new File(dir, modFile)).toURI().toURL();
